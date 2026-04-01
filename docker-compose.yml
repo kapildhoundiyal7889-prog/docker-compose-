@@ -18,13 +18,13 @@ services:
       dockerfile: MYDockerfile
     ports:
       - "8080:80"
-    networks:
+    networks:              
       mynet:
     stdin_open: true
     tty: true
     restart: always
 
-      
+  # custom bridge network      
 networks:
   mynet:
     external: true
