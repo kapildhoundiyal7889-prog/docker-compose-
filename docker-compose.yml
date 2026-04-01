@@ -1,0 +1,33 @@
+version: "3.8"
+
+services:
+  nginx:
+    build: .
+    container_name: nginx_container
+    ports:
+      - "80:80"
+    volumes:
+      - ./MYDockerfile:/vol2
+    networks:
+      - mynet
+    
+
+  apache2:
+    build:
+      context: .
+      dockerfile: MYDockerfile
+    ports:
+      - "8080:80"
+    networks:
+      mynet:
+    stdin_open: true
+    tty: true
+    restart: always
+
+      
+networks:
+  mynet:
+    external: true
+    name: my_first_network
+      
+

@@ -1,0 +1,9 @@
+FROM ubuntu
+LABEL maintainer="kapil Dhoundiyal"
+RUN apt update -y 
+RUN apt install apache2 curl iproute2 -y
+WORKDIR /kapil
+EXPOSE 80
+ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
+COPY first.html /var/www/html
+

@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>HomeLoanHub | Smart Home Loan Calculator</title>
+  <!-- Google Fonts + simple reset & modern styling -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <!-- Font Awesome 6 (free icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(145deg, #f0f6ff 0%, #e9eff8 100%);
+      color: #1A2C3E;
+      line-height: 1.4;
+      scroll-behavior: smooth;
+    }
+
+    /* container utility */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* header / navigation */
+    .navbar {
+      background: rgba(255, 255, 255, 0.92);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(0, 32, 64, 0.08);
+    }
+
+    .nav-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 0;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo i {
+      font-size: 2rem;
+      color: #1e4a76;
+      background: #e6f0fc;
+      padding: 8px;
+      border-radius: 18px;
+    }
+
+    .logo span {
+      font-weight: 700;
+      font-size: 1.6rem;
+      letter-spacing: -0.3px;
+      background: linear-gradient(135deg, #1e4a76, #0f2c44);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 32px;
+      font-weight: 500;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #2c3e4e;
+      transition: 0.2s;
+      font-size: 1rem;
+    }
+
+    .nav-links a:hover {
+      color: #1e6f9f;
+    }
+
+    .btn-outline-light {
+      background: transparent;
+      border: 1.5px solid #1e6f9f;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-weight: 600;
+      color: #1e6f9f;
+      transition: 0.2s;
+    }
+
+    .btn-outline-light:hover {
+      background: #1e6f9f;
+      color: white;
+    }
+
+    /* Hero section */
+    .hero {
+      padding: 3rem 0 2rem 0;
+    }
+
+    .hero-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hero-text {
+      flex: 1.2;
+      min-width: 280px;
+    }
+
+    .hero-text h1 {
+      font-size: 3rem;
+      font-weight: 800;
+      line-height: 1.2;
+      background: linear-gradient(to right, #173451, #2b6a93);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 20px;
+    }
+
+    .hero-text p {
+      font-size: 1.1rem;
+      color: #2c4b66;
+      max-width: 550px;
+      margin-bottom: 30px;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 12px 20px;
+      border-radius: 32px;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.02);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      backdrop-filter: blur(2px);
+    }
+
+    .stat-card i {
+      font-size: 1.8rem;
+      color: #1e6f9f;
+    }
+
+    .stat-info h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+    }
+
+    .hero-image {
+      flex: 0.9;
+      text-align: center;
+    }
+
+    .hero-image img {
+      max-width: 100%;
+      width: 320px;
+      filter: drop-shadow(0 12px 18px rgba(0,0,0,0.08));
+    }
+
+    /* main calculator card */
+    .calc-section {
+      padding: 30px 0 70px;
+    }
+
+    .card-glass {
+      background: rgba(255, 255, 255, 0.98);
+      border-radius: 48px;
+      box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      backdrop-filter: blur(2px);
+      transition: all 0.2s;
+      border: 1px solid rgba(255,255,255,0.5);
+    }
+
+    .calc-inner {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .inputs-panel {
+      flex: 1.3;
+      padding: 2.5rem 2rem;
+      background: #ffffff;
+    }
+
+    .results-panel {
+      flex: 1;
+      background: #f8fafd;
+      padding: 2.5rem 2rem;
+      border-left: 1px solid #e2edf7;
+    }
+
+    .section-title {
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title i {
+      color: #1e6f9f;
+      font-size: 1.8rem;
+    }
+
+    .input-group {
+      margin-bottom: 1.8rem;
+    }
+
+    .input-group label {
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      color: #1e3a4d;
+    }
+
+    .input-row {
+      display: flex;
+      align-items: center;
+      background: #f1f5f9;
+      border-radius: 60px;
+      padding: 0 16px;
+      border: 1px solid #dce5ef;
+      transition: 0.2s;
+    }
+
+    .input-row:focus-within {
+      border-color: #1e6f9f;
+      box-shadow: 0 0 0 3px rgba(30,111,159,0.2);
+    }
+
+    .input-row i {
+      color: #6c8dae;
+      font-size: 1.2rem;
+    }
+
+    .input-row input {
+      width: 100%;
+      padding: 14px 12px;
+      border: none;
+      background: transparent;
+      font-size: 1rem;
+      font-weight: 500;
+      outline: none;
+      font-family: 'Inter', monospace;
+    }
+
+    .range-hint {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      margin-top: 6px;
+      color: #5b7c9c;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      margin-top: 8px;
+      accent-color: #1e6f9f;
+    }
+
+    .result-card {
+      background: white;
+      border-radius: 28px;
+      padding: 1.4rem;
+      margin-bottom: 1.8rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.02);
+      border: 1px solid #e2edf7;
+    }
+
+    .result-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 600;
+      color: #5f7f9c;
+    }
+
+    .result-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: #173451;
+      word-break: break-word;
+    }
+
+    .result-value small {
+      font-size: 1rem;
+      font-weight: 500;
+    }
+
+    .breakdown {
+      margin: 1rem 0;
+    }
+
+    .break-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px dashed #d4e2f0;
+    }
+
+    .btn-primary {
+      background: #1e6f9f;
+      border: none;
+      width: 100%;
+      padding: 14px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      margin-top: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-primary:hover {
+      background: #0f5780;
+      transform: scale(0.98);
+    }
+
+    .info-note {
+      font-size: 0.75rem;
+      text-align: center;
+      margin-top: 20px;
+      color: #6f8dab;
+    }
+
+    footer {
+      background: #0f2c3f;
+      color: #cddfea;
+      padding: 40px 0 20px;
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .footer-content {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+      align-items: center;
+    }
+
+    @media (max-width: 860px) {
+      .calc-inner {
+        flex-direction: column;
+      }
+      .results-panel {
+        border-left: none;
+        border-top: 1px solid #e2edf7;
+      }
+      .hero-text h1 {
+        font-size: 2.3rem;
+      }
+      .nav-flex {
+        flex-direction: column;
+        gap: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container nav-flex">
+    <div class="logo">
+      <i class="fas fa-home"></i>
+      <span>HomeLoanHub</span>
+    </div>
+    <div class="nav-links">
+      <a href="#">Calculator</a>
+      <a href="#">Rates</a>
+      <a href="#">Resources</a>
+      <a href="#" class="btn-outline-light">Get pre-approved</a>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="container hero">
+    <div class="hero-grid">
+      <div class="hero-text">
+        <h1>Smart financing for your dream home</h1>
+        <p>Compare monthly payments, understand your budget, and take the first step toward homeownership with confidence.</p>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <i class="fas fa-chart-line"></i>
+            <div class="stat-info">
+              <h4>4.8%</h4>
+              <span>Avg. rate (today)</span>
+            </div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-user-check"></i>
+            <div class="stat-info">
+              <h4>10k+</h4>
+              <span>Happy owners</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-image">
+        <!-- SVG / modern house illustration (inline) -->
+        <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M20 80 L100 20 L180 80 L160 80 L160 140 L40 140 L40 80 L20 80Z" fill="#C9E9FF" stroke="#1e6f9f" stroke-width="2" />
+          <rect x="70" y="100" width="60" height="40" fill="#F9D9B5" stroke="#B97F44" stroke-width="1.5" />
+          <rect x="92" y="110" width="16" height="30" fill="#8B5A2B" />
+          <circle cx="100" cy="90" r="8" fill="#F5C542" />
+          <rect x="130" y="50" width="30" height="35" fill="#D9B48B" />
+          <path d="M30 70 L50 70 L50 90 L30 90 Z" fill="#E5C99C" />
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="calc-section">
+    <div class="container">
+      <div class="card-glass">
+        <div class="calc-inner">
+          <!-- left: inputs -->
+          <div class="inputs-panel">
+            <div class="section-title">
+              <i class="fas fa-calculator"></i> 
+              <span>Customize your loan</span>
+            </div>
+
+            <div class="input-group">
+              <label><span><i class="fas fa-dollar-sign"></i> Home Price</span> <span id="priceValDisplay">$300,000</span></label>
+              <div class="input-row">
+                <i class="fas fa-home"></i>
+                <input type="number" id="homePrice" value="300000" step="10000" min="50000" max="2000000">
+              </div>
+              <input type="range" id="priceRange" min="50000" max="2000000" step="10000" value="300000">
+              <div class="range-hint"><span>$50k</span><span>$2M+</span></div>
+            </div>
+
+            <div class="input-group">
+              <label><span><i class="fas fa-hand-holding-usd"></i> Down Payment</span> <span id="downValDisplay">$60,000 (20%)</span></label>
+              <div class="input-row">
+                <i class="fas fa-percent"></i>
+                <input type="number" id="downPayment" value="60000" step="5000" min="0" max="400000">
+              </div>
+              <input type="range" id="downRange" min="0" max="400000" step="5000" value="60000">
+              <div class="range-hint"><span>0%</span><span>~20%+</span></div>
+            </div>
+
+            <div class="input-group">
+              <label><span><i class="fas fa-chart-simple"></i> Interest Rate (%)</span> <span id="rateValDisplay">4.8%</span></label>
+              <div class="input-row">
+                <i class="fas fa-percent"></i>
+                <input type="number" id="interestRate" value="4.8" step="0.1" min="1.5" max="12">
+              </div>
+              <input type="range" id="rateRange" min="1.5" max="12" step="0.1" value="4.8">
+              <div class="range-hint"><span>1.5%</span><span>12%</span></div>
+            </div>
+
+            <div class="input-group">
+              <label><span><i class="fas fa-calendar-alt"></i> Loan Term (years)</span> <span id="termValDisplay">30 years</span></label>
+              <div class="input-row">
+                <i class="fas fa-clock"></i>
+                <select id="loanTerm" style="width:100%; padding:14px; border:none; background:#f1f5f9; border-radius:60px; font-weight:500; outline:none;">
+                  <option value="30">30 years</option>
+                  <option value="20">20 years</option>
+                  <option value="15">15 years</option>
+                  <option value="10">10 years</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="input-group">
+              <label><span><i class="fas fa-file-invoice-dollar"></i> Annual Property Tax</span> <span id="taxValDisplay">$2,400</span></label>
+              <div class="input-row">
+                <i class="fas fa-building"></i>
+                <input type="number" id="propertyTax" value="2400" step="200" min="0" max="20000">
+              </div>
+              <input type="range" id="taxRange" min="0" max="20000" step="200" value="2400">
+            </div>
+
+            <div class="input-group">
+              <label><span><i class="fas fa-shield-alt"></i> Annual Insurance</span> <span id="insValDisplay">$1,200</span></label>
+              <div class="input-row">
+                <i class="fas fa-umbrella"></i>
+                <input type="number" id="insurance" value="1200" step="100" min="0" max="8000">
+              </div>
+              <input type="range" id="insRange" min="0" max="8000" step="100" value="1200">
+            </div>
+
+            <button id="calcBtn" class="btn-primary"><i class="fas fa-chart-pie"></i> Update Payment & Breakdown</button>
+            <div class="info-note"><i class="fas fa-info-circle"></i> Monthly payment = Principal + Interest + Tax + Insurance (PITI)</div>
+          </div>
+
+          <!-- right: dynamic results -->
+          <div class="results-panel">
+            <div class="section-title">
+              <i class="fas fa-chart-line"></i>
+              <span>Your monthly estimate</span>
+            </div>
+            <div class="result-card">
+              <div class="result-label">Monthly Payment (PITI)</div>
+              <div class="result-value" id="monthlyPayment">$0</div>
+            </div>
+            <div class="result-card breakdown">
+              <div class="result-label">Full breakdown</div>
+              <div class="break-item"><span>Principal & Interest</span><span id="principalInterest">$0</span></div>
+              <div class="break-item"><span>Property Tax</span><span id="monthlyTax">$0</span></div>
+              <div class="break-item"><span>Home Insurance</span><span id="monthlyIns">$0</span></div>
+              <div class="break-item" style="border-bottom: none; font-weight:700;"><span>Loan amount</span><span id="loanAmountSpan">$0</span></div>
+            </div>
+            <div class="result-card">
+              <div class="result-label">Total interest paid (30y)</div>
+              <div class="result-value" id="totalInterest">$0</div>
+            </div>
+            <div class="info-note" style="margin-top:8px;"><i class="fas fa-chart-simple"></i> Based on current rates & fixed-rate mortgage.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-content">
+    <div>© 2025 HomeLoanHub — Empowering homeowners</div>
+    <div><i class="fas fa-phone-alt"></i> 1-800-555-LOAN &nbsp;|&nbsp; <i class="fas fa-envelope"></i> hello@homeloanhub.com</div>
+  </div>
+  <div class="container" style="font-size:0.7rem; margin-top:20px;">*Estimates are for educational purposes. Actual rates and terms subject to lender approval.</div>
+</footer>
+
+<script>
+  // DOM elements
+  const homePriceInput = document.getElementById('homePrice');
+  const priceRange = document.getElementById('priceRange');
+  const priceValDisplay = document.getElementById('priceValDisplay');
+
+  const downPaymentInput = document.getElementById('downPayment');
+  const downRange = document.getElementById('downRange');
+  const downValDisplay = document.getElementById('downValDisplay');
+
+  const interestRateInput = document.getElementById('interestRate');
+  const rateRange = document.getElementById('rateRange');
+  const rateValDisplay = document.getElementById('rateValDisplay');
+
+  const loanTermSelect = document.getElementById('loanTerm');
+  const termValDisplay = document.getElementById('termValDisplay');
+
+  const propertyTaxInput = document.getElementById('propertyTax');
+  const taxRange = document.getElementById('taxRange');
+  const taxValDisplay = document.getElementById('taxValDisplay');
+
+  const insuranceInput = document.getElementById('insurance');
+  const insRange = document.getElementById('insRange');
+  const insValDisplay = document.getElementById('insValDisplay');
+
+  // result fields
+  const monthlyPaymentSpan = document.getElementById('monthlyPayment');
+  const principalInterestSpan = document.getElementById('principalInterest');
+  const monthlyTaxSpan = document.getElementById('monthlyTax');
+  const monthlyInsSpan = document.getElementById('monthlyIns');
+  const totalInterestSpan = document.getElementById('totalInterest');
+  const loanAmountSpan = document.getElementById('loanAmountSpan');
+
+  const calcBtn = document.getElementById('calcBtn');
+
+  function formatCurrency(value) {
+    return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function formatCurrencyDec(value) {
+    return '$' + value.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function updateAll() {
+    // sync numeric inputs with ranges
+    let homePrice = parseFloat(homePriceInput.value);
+    let downPay = parseFloat(downPaymentInput.value);
+    let annualRate = parseFloat(interestRateInput.value);
+    let years = parseInt(loanTermSelect.value);
+    let annualTax = parseFloat(propertyTaxInput.value);
+    let annualInsurance = parseFloat(insuranceInput.value);
+
+    // boundary sanity
+    if (isNaN(homePrice)) homePrice = 300000;
+    if (isNaN(downPay)) downPay = 60000;
+    if (isNaN(annualRate)) annualRate = 4.8;
+    if (isNaN(annualTax)) annualTax = 2400;
+    if (isNaN(annualInsurance)) annualInsurance = 1200;
+
+    // ensure down payment not exceed home price
+    if (downPay > homePrice) downPay = homePrice;
+    downPaymentInput.value = downPay;
+    downRange.value = downPay;
+
+    const loanAmount = homePrice - downPay;
+    loanAmountSpan.innerText = formatCurrency(loanAmount);
+
+    const monthlyRate = annualRate / 100 / 12;
+    const totalPayments = years * 12;
+
+    let monthlyPI = 0;
+    let totalInterestPaid = 0;
+    if (monthlyRate > 0 && loanAmount > 0) {
+      monthlyPI = loanAmount * monthlyRate * Math.pow(1 + monthlyRate, totalPayments) / (Math.pow(1 + monthlyRate, totalPayments) - 1);
+      if (!isFinite(monthlyPI)) monthlyPI = loanAmount / totalPayments;
+      totalInterestPaid = (monthlyPI * totalPayments) - loanAmount;
+    } else {
+      monthlyPI = loanAmount / totalPayments;
+      totalInterestPaid = 0;
+    }
+    if (loanAmount === 0) {
+      monthlyPI = 0;
+      totalInterestPaid = 0;
+    }
+
+    const monthlyTax = annualTax / 12;
+    const monthlyIns = annualInsurance / 12;
+    const totalMonthly = monthlyPI + monthlyTax + monthlyIns;
+
+    monthlyPaymentSpan.innerText = formatCurrencyDec(totalMonthly);
+    principalInterestSpan.innerText = formatCurrencyDec(monthlyPI);
+    monthlyTaxSpan.innerText = formatCurrencyDec(monthlyTax);
+    monthlyInsSpan.innerText = formatCurrencyDec(monthlyIns);
+    totalInterestSpan.innerText = formatCurrencyDec(totalInterestPaid);
+
+    // update displays and sync sliders
+    priceValDisplay.innerText = formatCurrency(homePrice);
+    priceRange.value = homePrice;
+
+    const downPercent = ((downPay / homePrice) * 100).toFixed(0);
+    downValDisplay.innerText = `${formatCurrency(downPay)} (${downPercent}%)`;
+    downRange.value = downPay;
+
+    rateValDisplay.innerText = annualRate.toFixed(1) + '%';
+    rateRange.value = annualRate;
+
+    termValDisplay.innerText = years + ' years';
+
+    taxValDisplay.innerText = formatCurrency(annualTax);
+    taxRange.value = annualTax;
+
+    insValDisplay.innerText = formatCurrency(annualInsurance);
+    insRange.value = annualInsurance;
+
+    // extra insurance for down payment slider updates if needed
+  }
+
+  // Event binding
+  function bindEvents() {
+    homePriceInput.addEventListener('input', () => {
+      let val = parseFloat(homePriceInput.value);
+      if (!isNaN(val)) {
+        priceRange.value = val;
+        let downVal = parseFloat(downPaymentInput.value);
+        if (downVal > val) downPaymentInput.value = val;
+        updateAll();
+      }
+    });
+    priceRange.addEventListener('input', () => {
+      let val = parseFloat(priceRange.value);
+      homePriceInput.value = val;
+      let downVal = parseFloat(downPaymentInput.value);
+      if (downVal > val) {
+        downPaymentInput.value = val;
+        downRange.value = val;
+      }
+      updateAll();
+    });
+
+    downPaymentInput.addEventListener('input', () => {
+      let val = parseFloat(downPaymentInput.value);
+      let price = parseFloat(homePriceInput.value);
+      if (!isNaN(val)) {
+        if (val > price) val = price;
+        downPaymentInput.value = val;
+        downRange.value = val;
+        updateAll();
+      }
+    });
+    downRange.addEventListener('input', () => {
+      let val = parseFloat(downRange.value);
+      let price = parseFloat(homePriceInput.value);
+      if (val > price) val = price;
+      downPaymentInput.value = val;
+      updateAll();
+    });
+
+    interestRateInput.addEventListener('input', () => {
+      let val = parseFloat(interestRateInput.value);
+      if (!isNaN(val)) {
+        rateRange.value = val;
+        updateAll();
+      }
+    });
+    rateRange.addEventListener('input', () => {
+      let val = parseFloat(rateRange.value);
+      interestRateInput.value = val;
+      updateAll();
+    });
+
+    loanTermSelect.addEventListener('change', updateAll);
+
+    propertyTaxInput.addEventListener('input', () => {
+      let val = parseFloat(propertyTaxInput.value);
+      if (!isNaN(val)) {
+        taxRange.value = val;
+        updateAll();
+      }
+    });
+    taxRange.addEventListener('input', () => {
+      let val = parseFloat(taxRange.value);
+      propertyTaxInput.value = val;
+      updateAll();
+    });
+
+    insuranceInput.addEventListener('input', () => {
+      let val = parseFloat(insuranceInput.value);
+      if (!isNaN(val)) {
+        insRange.value = val;
+        updateAll();
+      }
+    });
+    insRange.addEventListener('input', () => {
+      let val = parseFloat(insRange.value);
+      insuranceInput.value = val;
+      updateAll();
+    });
+
+    calcBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      updateAll();
+    });
+  }
+
+  // initial call
+  function init() {
+    bindEvents();
+    updateAll();
+  }
+  init();
+</script>
+</body>
+</html>
