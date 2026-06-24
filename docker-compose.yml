@@ -8,8 +8,8 @@ services:
       - "80:80"
     volumes:
       - ./MYDockerfile:/vol2
-    networks:
-      - mynet
+  #  networks:
+   #   - mynet
     
 
   apache2:
@@ -18,16 +18,15 @@ services:
       dockerfile: MYDockerfile
     ports:
       - "82:80"
-    networks:              
-      mynet:
+    #networks:              
+     # mynet:
     stdin_open: true
     tty: true
     restart: always
 
   # custom bridge network      
-networks:
-  mynet:
-    external: true
-    name: my_first_network
+#networks:
+ # mynet:
+   ## name: my_first_network
       
 
