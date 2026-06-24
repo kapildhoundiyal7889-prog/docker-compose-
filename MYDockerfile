@@ -2,6 +2,8 @@ FROM ubuntu
 LABEL maintainer="kapil Dhoundiyal"
 RUN apt update -y 
 RUN apt install apache2 curl iproute2 -y
+RUN rm -rvf /var/www/html/*
+COPY first.html /var/www/html/index.html
 WORKDIR /kapil
 EXPOSE 80
 ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
