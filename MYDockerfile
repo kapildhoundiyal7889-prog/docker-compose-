@@ -7,5 +7,5 @@ COPY first.html /var/www/html/index.html
 WORKDIR /kapil
 EXPOSE 80
 ENTRYPOINT ["apache2ctl", "-D", "FOREGROUND"]
-COPY first.html /var/www/html
+
 
